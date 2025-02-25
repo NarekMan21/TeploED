@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Управление Теплицей</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+    }
+    #sidebar {
+      width: 200px;
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      padding: 20px;
+      height: 100vh;
+    }
+    #sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    #sidebar li {
+      margin-bottom: 15px;
+    }
+    #sidebar a {
+      color: #ecf0f1;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    #content {
+      flex-grow: 1;
+      padding: 20px;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    button {
+      margin: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+    form div {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <h2>Меню</h2>
+    <ul>
+      <li><a onclick="showSection('dashboard')">Дашборд</a></li>
+      <li><a onclick="showSection('control')">Панель Управления</a></li>
+      <li><a onclick="showSection('settings')">Настройки</a></li>
+      <li><a onclick="showSection('logs')">Логи</a></li>
+    </ul>
+  </div>
+  <div id="content">
+    <!-- Дашборд -->
+    <section id="dashboard" class="section">
+      <h1>Дашборд</h1>
+      <div id="sensor-data">
+        <p>Температура: <span id="temp">--</span> °C</p>
+        <p>Влажность: <span id="humidity">--</span> %</p>
+        <p>Освещенность: <span id="light">--</span> lx</p>
+        <p>Влажность почвы: <span id="soil">--</span> %</p>
+      </div>
+    </section>
+    
+    <!-- Панель управления -->
+    <section id="control" class="section" style="display:none">
+      <h1>Панель Управления</h1>
+      <div>
+        <button onclick="sendControl('heat', 'on')">Включить подогрев</button>
+        <button onclick="sendControl('heat', 'off')">Выключить подогрев</button>
+      </div>
+      <div>
+        <button onclick="sendControl('vent', 'on')">Включить вентиляцию</button>
+        <button onclick="sendControl('vent', 'off')">Выключить вентиляцию</button>
+      </div>
+      <div>
+        <button onclick="sendControl('irrigation', 'on')">Начать полив</button>
+        <button onclick="sendControl('irrigation', 'off')">Остановить полив</button>
+      </div>
+      <div>
+        <button onclick="sendControl('light', 'on')">Включить освещение</button>
+        <button onclick="sendControl('light', 'off')">Выключить освещение</button>
+      </div>
+    </section>
+    
+    <!-- Настройки -->
+    <section id="settings" class="section" style="display:none">
+      <h1>Настройки</h1>
+      <form id="settings-form">
+        <div>
+          <label for="temp-threshold">Порог температуры (°C):</label>
+          <input type="number" id="temp-threshold" name="tempThreshold" value="25">
+        </div>
+        <div>
+          <label for="humidity-threshold">Порог влажности (%):</label>
+          <input type="number" id="humidity-threshold" name="humidityThreshold" value="60">
+        </div>
+        <div>
+          <label for="soil-threshold">Порог влажности почвы (%):</label>
+          <input type="number" id="soil-threshold" name="soilThreshold" value="40">
+        </div>
+        <div>
+          <button type="button" onclick="saveSettings()">Сохранить настройки</button>
+        </div>
+      </form>
+    </section>
+    
+    <!-- Логи -->
+    <section id="logs" class="section" style="display:none">
+      <h1>Логи</h1>
+      <div id="log-container">
+        <!-- Здесь будут отображаться логи -->
+      </div>
+    </section>
+  </div>
+  
+  <script>
+    // Эмуляция данных датчиков и логов
+    let sensorData = {
+      temperature: 23,
+      humidity: 55,
+      light: 300,
+      soilMoisture: 35
+    };
+    
+    let logs = ['Система запущена', 'Данные обновлены'];
+    
+    // Функция для обновления показателей датчиков (симуляция)
+    function updateSensorData() {
+      sensorData.temperature = (20 + Math.random() * 10).toFixed(1);
+      sensorData.humidity = (50 + Math.random() * 10).toFixed(1);
+      sensorData.light = Math.floor(200 + Math.random() * 200);
+      sensorData.soilMoisture = (30 + Math.random() * 20).toFixed(1);
+      
+      document.getElementById('temp').innerText = sensorData.temperature;
+      document.getElementById('humidity').innerText = sensorData.humidity;
+      document.getElementById('light').innerText = sensorData.light;
+      document.getElementById('soil').innerText = sensorData.soilMoisture;
+    }
+    
+    // Функция для обновления логов
+    function updateLogs() {
+      const logContainer = document.getElementById('log-container');
+      logContainer.innerHTML = '';
+      logs.forEach(function(log) {
+        const p = document.createElement('p');
+        p.textContent = log;
+        logContainer.appendChild(p);
+      });
+    }
+    
+    // Функция для имитации управления оборудованием
+    function sendControl(device, action) {
+      const message = 'Устройство ' + device + ' получило команду ' + action;
+      logs.push(message);
+      updateLogs();
+      alert('Команда выполнена: ' + action + ' для ' + device);
+    }
+    
+    // Функция для сохранения настроек
+    function saveSettings() {
+      const tempThreshold = document.getElementById('temp-threshold').value;
+      const humidityThreshold = document.getElementById('humidity-threshold').value;
+      const soilThreshold = document.getElementById('soil-threshold').value;
+      logs.push('Настройки обновлены: Температура ' + tempThreshold + ', Влажность ' + humidityThreshold + ', Почва ' + soilThreshold);
+      updateLogs();
+      alert('Настройки сохранены');
+    }
+    
+    // Функция для переключения между разделами
+    function showSection(sectionId) {
+      const sections = document.getElementsByClassName('section');
+      for (let i = 0; i < sections.length; i++) {
+        sections[i].style.display = 'none';
+      }
+      document.getElementById(sectionId).style.display = 'block';
+    }
+    
+    // Первоначальное обновление данных и логов
+    updateSensorData();
+    updateLogs();
+    
+    // Обновляем данные каждые 5 секунд
+    setInterval(function() {
+      updateSensorData();
+      updateLogs();
+    }, 5000);
+  </script>
+</body>
+</html>
