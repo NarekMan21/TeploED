@@ -1,12 +1,12 @@
     // Эмуляция данных датчиков и логов
-    let sensorData = {
+    const sensorData = {
       temperature: 23,
       humidity: 55,
       light: 300,
       soilMoisture: 35
     };
     
-    let logs = ['Система запущена', 'Данные обновлены'];
+    const logs = ['Система запущена', 'Данные обновлены'];
     
     // Функция для обновления показателей датчиков (симуляция)
     function updateSensorData() {
