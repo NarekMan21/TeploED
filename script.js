@@ -59,12 +59,32 @@
       document.getElementById(sectionId).style.display = 'block';
     }
     
-    // Первоначальное обновление данных и логов
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('#sidebar a[data-section]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      showSection(this.dataset.section);
+    });
+  });
+
+  document.querySelectorAll('#control button[data-device]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      sendControl(this.dataset.device, this.dataset.action);
+    });
+  });
+
+  const saveBtn = document.getElementById('save-settings');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', saveSettings);
+  }
+
+  // Первоначальное обновление данных и логов
+  updateSensorData();
+  updateLogs();
+
+  // Обновляем данные каждые 5 секунд
+  setInterval(function () {
     updateSensorData();
     updateLogs();
-    
-    // Обновляем данные каждые 5 секунд
-    setInterval(function() {
-      updateSensorData();
-      updateLogs();
-    }, 5000);
+  }, 5000);
+});

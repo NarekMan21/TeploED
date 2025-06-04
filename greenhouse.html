@@ -50,10 +50,10 @@
   <div id="sidebar">
     <h2>Меню</h2>
     <ul>
-      <li><a onclick="showSection('dashboard')">Дашборд</a></li>
-      <li><a onclick="showSection('control')">Панель Управления</a></li>
-      <li><a onclick="showSection('settings')">Настройки</a></li>
-      <li><a onclick="showSection('logs')">Логи</a></li>
+      <li><a data-section="dashboard">Дашборд</a></li>
+      <li><a data-section="control">Панель Управления</a></li>
+      <li><a data-section="settings">Настройки</a></li>
+      <li><a data-section="logs">Логи</a></li>
     </ul>
   </div>
   <div id="content">
@@ -72,20 +72,20 @@
     <section id="control" class="section" style="display:none">
       <h1>Панель Управления</h1>
       <div>
-        <button onclick="sendControl('heat', 'on')">Включить подогрев</button>
-        <button onclick="sendControl('heat', 'off')">Выключить подогрев</button>
+        <button data-device="heat" data-action="on">Включить подогрев</button>
+        <button data-device="heat" data-action="off">Выключить подогрев</button>
       </div>
       <div>
-        <button onclick="sendControl('vent', 'on')">Включить вентиляцию</button>
-        <button onclick="sendControl('vent', 'off')">Выключить вентиляцию</button>
+        <button data-device="vent" data-action="on">Включить вентиляцию</button>
+        <button data-device="vent" data-action="off">Выключить вентиляцию</button>
       </div>
       <div>
-        <button onclick="sendControl('irrigation', 'on')">Начать полив</button>
-        <button onclick="sendControl('irrigation', 'off')">Остановить полив</button>
+        <button data-device="irrigation" data-action="on">Начать полив</button>
+        <button data-device="irrigation" data-action="off">Остановить полив</button>
       </div>
       <div>
-        <button onclick="sendControl('light', 'on')">Включить освещение</button>
-        <button onclick="sendControl('light', 'off')">Выключить освещение</button>
+        <button data-device="light" data-action="on">Включить освещение</button>
+        <button data-device="light" data-action="off">Выключить освещение</button>
       </div>
     </section>
     
@@ -106,7 +106,7 @@
           <input type="number" id="soil-threshold" name="soilThreshold" value="40">
         </div>
         <div>
-          <button type="button" onclick="saveSettings()">Сохранить настройки</button>
+          <button type="button" id="save-settings">Сохранить настройки</button>
         </div>
       </form>
     </section>
