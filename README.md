@@ -4,7 +4,8 @@ TeploED is a simple web interface for monitoring and controlling a greenhouse. T
 
 ## Features
 - Dashboard showing temperature, humidity, light level and soil moisture.
-- Action log that records each command sent to the simulated devices.
+- Action log that records each command sent to the simulated devices and
+  persists between visits via `localStorage`.
 - Control panel with buttons for heater, lighting and watering systems.
 - Settings section for adjusting thresholds (not yet persisted).
 - Sensor values are refreshed every 5 seconds to mimic real time updates.
