@@ -6,7 +6,25 @@
       soilMoisture: 35
     };
     
-    const logs = ['Система запущена', 'Данные обновлены'];
+    let logs = [];
+
+    function loadLogs() {
+      const saved = localStorage.getItem('logs');
+      if (saved) {
+        try {
+          logs = JSON.parse(saved);
+        } catch (e) {
+          logs = [];
+        }
+      }
+      if (logs.length === 0) {
+        logs = ['Система запущена', 'Данные обновлены'];
+      }
+    }
+
+    function saveLogs() {
+      localStorage.setItem('logs', JSON.stringify(logs));
+    }
     
     // Функция для обновления показателей датчиков (симуляция)
     function updateSensorData() {
@@ -36,6 +54,7 @@
     function sendControl(device, action) {
       const message = 'Устройство ' + device + ' получило команду ' + action;
       logs.push(message);
+      saveLogs();
       updateLogs();
       alert('Команда выполнена: ' + action + ' для ' + device);
     }
@@ -46,6 +65,7 @@
       const humidityThreshold = document.getElementById('humidity-threshold').value;
       const soilThreshold = document.getElementById('soil-threshold').value;
       logs.push('Настройки обновлены: Температура ' + tempThreshold + ', Влажность ' + humidityThreshold + ', Почва ' + soilThreshold);
+      saveLogs();
       updateLogs();
       alert('Настройки сохранены');
     }
@@ -78,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
     saveBtn.addEventListener('click', saveSettings);
   }
 
+  loadLogs();
   // Первоначальное обновление данных и логов
   updateSensorData();
   updateLogs();
